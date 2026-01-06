@@ -2340,7 +2340,7 @@ if (!backendAvailable) {
   })();
   (function () {
     s.$1 = new VEL.Skynet.Global.Helpers.GoogleClassroomErrorReporter(
-      "https://localhost/perguntas-passa-repassa/static/scripts/saltarelle/vel-skynet-application-client.js"
+      "https://skynetsites.github.io/perguntas-torta-na-cara/static/scripts/saltarelle/vel-skynet-application-client.js"
     );
   })();
   (function () {
