@@ -17,6 +17,16 @@
     <link rel="stylesheet" href="static/content/css/global/buttons.css">
     <link rel="stylesheet" href="static/content/css/vendors/fontawesome/regular.css">
 
+    <script>
+    if (location.hostname.includes("github.io")) {
+      console.log("Beacon desativado (GitHub Pages)");
+      window.__cfBeacon = { load: "disabled" };
+      navigator.sendBeacon = function () {
+        return true;
+      };
+    }
+  </script>
+
     <!-- Configuração inicial do servidor -->
     <script>
         window.ServerModel = {
@@ -101,3 +111,4 @@
 </body>
 
 </html>
+
