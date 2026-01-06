@@ -21,13 +21,13 @@
 (function () {
   if (!location.hostname.includes("github.io")) return;
 
-  console.log("🚫 Bloqueando POST / Beacon no GitHub Pages");
+  console.log("🚫 Beacon / POST neutralizado (GitHub Pages)");
 
   /* ===== sendBeacon ===== */
   if (navigator.sendBeacon) {
     navigator.sendBeacon = function () {
-      console.log("sendBeacon bloqueado");
-      return true; // finge sucesso
+      console.log("sendBeacon neutralizado");
+      return true;
     };
   }
 
@@ -36,29 +36,36 @@
     const originalFetch = window.fetch;
     window.fetch = function (input, init) {
       if (init && init.method && init.method.toUpperCase() === "POST") {
-        console.log("fetch POST bloqueado:", input);
+        console.log("fetch POST neutralizado:", input);
         return Promise.resolve(new Response(null, { status: 204 }));
       }
       return originalFetch.apply(this, arguments);
     };
   }
 
-  /* ===== XMLHttpRequest ===== */
-  const originalOpen = XMLHttpRequest.prototype.open;
+  /* ===== XMLHttpRequest (CORRETO) ===== */
   const originalSend = XMLHttpRequest.prototype.send;
+  const originalOpen = XMLHttpRequest.prototype.open;
 
   XMLHttpRequest.prototype.open = function (method, url) {
-    this.__isPost = method && method.toUpperCase() === "POST";
+    this.__blockPost = method && method.toUpperCase() === "POST";
     this.__url = url;
     return originalOpen.apply(this, arguments);
   };
 
   XMLHttpRequest.prototype.send = function () {
-    if (this.__isPost) {
-      console.log("XHR POST bloqueado:", this.__url);
-      this.readyState = 4;
-      this.status = 204;
-      this.onreadystatechange && this.onreadystatechange();
+    if (this.__blockPost) {
+      console.log("XHR POST neutralizado:", this.__url);
+
+      // finge resposta válida SEM quebrar o estado
+      setTimeout(() => {
+        this.readyState = 4;
+        this.status = 204;
+        this.responseText = "";
+        this.onreadystatechange && this.onreadystatechange();
+        this.onload && this.onload();
+      }, 0);
+
       return;
     }
     return originalSend.apply(this, arguments);
@@ -151,6 +158,7 @@
 </body>
 
 </html>
+
 
 
 
