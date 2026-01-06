@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
+    <title>Perguntas para torta na cara infantil com alternativas</title>
+
+    <!-- Estilos principais -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="static/content/css/embed/embed.css">
+    <link rel="stylesheet" href="static/content/css/theme_fonts.css">
+    <link rel="stylesheet" href="static/content/css/global/global.css">
+    <link rel="stylesheet" href="static/content/css/global/modal_views.css">
+    <link rel="stylesheet" href="static/content/css/global/buttons.css">
+    <link rel="stylesheet" href="static/content/css/vendors/fontawesome/regular.css">
+
+    <!-- Configuração inicial do servidor -->
+    <script>
+        window.ServerModel = {
+            userId: 0,
+            isPro: false,
+            isBasic: false,
+            languageId: 1046,
+            localeId: 1046,
+            isTest: true,
+            policyVersion: 1,
+            policyTestOnly: false,
+            pageId: 21,
+            activityId: 1,
+            activityGuid: "10b50988ab00456fb0d6051468b1fa26",
+            activityTitle: "Perguntas para torta na cara infantil",
+            templateId: 6,
+            themeId: 47,
+            fontStackId: 0,
+            isEmbed: false
+        };
+    </script>
+</head>
+
+<body class="embedded">
+    <div class="js-activity-wrapper activity-wrapper has-banner">
+        <div class="canvas-container">
+            <canvas class="render-canvas js-render-canvas"></canvas>
+        </div>
+        <div class="play-preload js-play-preload">
+            <p class="js-play-preload-loader hidden">0%</p>
+            <p class="play-log-message js-play-log-message"></p>
+        </div>
+    </div>
+
+    <!-- Carregamento dinâmico de scripts e inicialização do jogo -->
+    <script>
+        const scripts = [
+            "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js",
+            "static/scripts/resources/strings_pt2.js",
+            "static/scripts/saltarelle/mscorlib.js",
+            "static/scripts/saltarelle/linq.js",
+            "static/scripts/global/cdnlinks.js",
+            "static/scripts/saltarelle/global.js",
+            "static/scripts/saltarelle/global-web.js",
+            "scripts/global/switches_database.js",
+            "static/scripts/saltarelle/core.js",
+            "static/scripts/saltarelle/view.js",
+            "static/scripts/saltarelle/application-client.js"
+        ];
+
+        function loadScripts(urls, callback) {
+            let index = 0;
+            function next() {
+                if (index >= urls.length) return callback();
+                const script = document.createElement("script");
+                script.src = urls[index++];
+                script.crossOrigin = "anonymous";
+                script.onload = next;
+                document.head.appendChild(script);
+            }
+            next();
+        }
+
+        // Carrega todos os scripts em sequência e inicia o jogo
+        loadScripts(scripts, () => {
+            $(document).ready(() => {
+                new VEL.Skynet.Application.Client.ClientApp();
+                
+                VEL.Skynet.Global.Shell.initialize();
+                VEL.Skynet.Global.Modules.app.setFontStackId(ServerModel.fontStackId, false);
+                VEL.Skynet.Global.Modules.app.setGameOverOptionsFlag(2, true);
+                VEL.Skynet.Global.Modules.app.startGame(
+                    4,
+                    26530540,
+                    ServerModel.activityGuid,
+                    65,
+                    5
+                );
+            });
+        });
+    </script>
+</body>
+
+</html>
