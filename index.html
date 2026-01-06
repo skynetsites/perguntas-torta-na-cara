@@ -17,40 +17,52 @@
     <link rel="stylesheet" href="static/content/css/global/buttons.css">
     <link rel="stylesheet" href="static/content/css/vendors/fontawesome/regular.css">
 
-    <script>
+  <script>
 (function () {
-  if (location.hostname.includes("github.io")) {
-    console.log("Bloqueando qualquer POST (GitHub Pages)");
+  if (!location.hostname.includes("github.io")) return;
 
-    // Bloqueia sendBeacon
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon = function () {
-        return true;
-      };
-    }
+  console.log("🚫 Bloqueando POST / Beacon no GitHub Pages");
 
-    // Bloqueia fetch POST
-    if (window.fetch) {
-      const originalFetch = window.fetch;
-      window.fetch = function (input, init) {
-        if (init && init.method === "POST") {
-          console.log("POST bloqueado (fetch):", input);
-          return Promise.resolve(new Response(null, { status: 204 }));
-        }
-        return originalFetch.apply(this, arguments);
-      };
-    }
-
-    // Bloqueia XMLHttpRequest POST
-    const open = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function (method, url) {
-      if (method === "POST") {
-        console.log("POST bloqueado (XHR):", url);
-        return;
-      }
-      return open.apply(this, arguments);
+  /* ===== sendBeacon ===== */
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon = function () {
+      console.log("sendBeacon bloqueado");
+      return true; // finge sucesso
     };
   }
+
+  /* ===== fetch ===== */
+  if (window.fetch) {
+    const originalFetch = window.fetch;
+    window.fetch = function (input, init) {
+      if (init && init.method && init.method.toUpperCase() === "POST") {
+        console.log("fetch POST bloqueado:", input);
+        return Promise.resolve(new Response(null, { status: 204 }));
+      }
+      return originalFetch.apply(this, arguments);
+    };
+  }
+
+  /* ===== XMLHttpRequest ===== */
+  const originalOpen = XMLHttpRequest.prototype.open;
+  const originalSend = XMLHttpRequest.prototype.send;
+
+  XMLHttpRequest.prototype.open = function (method, url) {
+    this.__isPost = method && method.toUpperCase() === "POST";
+    this.__url = url;
+    return originalOpen.apply(this, arguments);
+  };
+
+  XMLHttpRequest.prototype.send = function () {
+    if (this.__isPost) {
+      console.log("XHR POST bloqueado:", this.__url);
+      this.readyState = 4;
+      this.status = 204;
+      this.onreadystatechange && this.onreadystatechange();
+      return;
+    }
+    return originalSend.apply(this, arguments);
+  };
 })();
 </script>
 
@@ -139,6 +151,7 @@
 </body>
 
 </html>
+
 
 
 
