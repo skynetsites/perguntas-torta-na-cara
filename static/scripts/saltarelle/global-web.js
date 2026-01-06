@@ -6262,7 +6262,7 @@
           this.$5
             .get_domObject()
             .append(
-              "<span class='js-loading-gif'><img src='https://localhost/perguntas-passa-repassa/static/content/images/input_loading.gif'></span>"
+              "<span class='js-loading-gif'><img src='https://skynetsites.github.io/perguntas-torta-na-cara/static/content/images/input_loading.gif'></span>"
             );
         }
       },
