@@ -1294,8 +1294,8 @@ if (!backendAvailable) {
         b(e);
         return;
       }
-      var f = "https://localhost/perguntas-passa-repassa/documents/" + a;
-      var g = "https://localhost/perguntas-passa-repassa/documents/" + a;
+      var f = "https://skynetsites.github.io/perguntas-torta-na-cara/documents/" + a;
+      var g = "https://skynetsites.github.io/perguntas-torta-na-cara/documents/" + a;
       this.$2(
         f,
         function (h) {
