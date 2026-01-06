@@ -18,29 +18,42 @@
     <link rel="stylesheet" href="static/content/css/vendors/fontawesome/regular.css">
 
     <script>
-    (function () {
-      if (location.hostname.includes("github.io")) {
-        console.log("Beacon BLOQUEADO antes de carregar");
-        window.__cfBeacon = { load: "disabled" };
+(function () {
+  if (location.hostname.includes("github.io")) {
+    console.log("Bloqueando qualquer POST (GitHub Pages)");
 
-        if (navigator.sendBeacon) {
-          navigator.sendBeacon = function () {
-            return true;
-          };
+    // Bloqueia sendBeacon
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon = function () {
+        return true;
+      };
+    }
+
+    // Bloqueia fetch POST
+    if (window.fetch) {
+      const originalFetch = window.fetch;
+      window.fetch = function (input, init) {
+        if (init && init.method === "POST") {
+          console.log("POST bloqueado (fetch):", input);
+          return Promise.resolve(new Response(null, { status: 204 }));
         }
+        return originalFetch.apply(this, arguments);
+      };
+    }
 
-        // Bloqueia XHR POST do beacon
-        var open = XMLHttpRequest.prototype.open;
-        XMLHttpRequest.prototype.open = function (method, url) {
-          if (method === "POST" && url.includes("github.io")) {
-            console.log("POST bloqueado:", url);
-            return;
-          }
-          return open.apply(this, arguments);
-        };
+    // Bloqueia XMLHttpRequest POST
+    const open = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function (method, url) {
+      if (method === "POST") {
+        console.log("POST bloqueado (XHR):", url);
+        return;
       }
-    })();
-  </script>
+      return open.apply(this, arguments);
+    };
+  }
+})();
+</script>
+
 
     <!-- Configuração inicial do servidor -->
     <script>
@@ -126,5 +139,6 @@
 </body>
 
 </html>
+
 
 
