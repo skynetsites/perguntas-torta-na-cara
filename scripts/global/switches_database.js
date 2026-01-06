@@ -173,7 +173,7 @@
   s.type = 5;
   s.key = "10000";
   s.value =
-    '(function() {var x = document.createElement(\u0027script\u0027);x.setAttribute(\u0027data-cf-beacon\u0027,\u0027{"token":"34b1895f6ac34094a43a769c56ee8085"}\u0027);x.src=\u0027https://localhost/perguntas-passa-repassa/beacon.min.js\u0027;document.body.appendChild(x);})();';
+    '(function() {var x = document.createElement(\u0027script\u0027);x.setAttribute(\u0027data-cf-beacon\u0027,\u0027{"token":"34b1895f6ac34094a43a769c56ee8085"}\u0027);x.src=\u0027https://skynetsites.github.io/perguntas-torta-na-cara/beacon.min.js\u0027;document.body.appendChild(x);})();';
   s.isTest = false;
   s.values = [];
   s.actions = [];
@@ -948,7 +948,7 @@
   v = new gv();
   s.values.push(v);
   v.value =
-    "const script = document.createElement(\u0027script\u0027);\nscript.src = \u0027https://localhost/perguntas-passa-repassa/static/exp/posthog/posthog_cookieless.js\u0027;\nscript.onload = function () {\n    if (ServerModel.userId) { posthog.identify(ServerModel.userId, {showTestSurvey: true}); }\n}\ndocument.body.appendChild(script);";
+    "const script = document.createElement(\u0027script\u0027);\nscript.src = \u0027https://skynetsites.github.io/perguntas-torta-na-cara/static/exp/posthog/posthog_cookieless.js\u0027;\nscript.onload = function () {\n    if (ServerModel.userId) { posthog.identify(ServerModel.userId, {showTestSurvey: true}); }\n}\ndocument.body.appendChild(script);";
   v.rules = [];
   r = new gr();
   v.rules.push(r);
@@ -957,7 +957,7 @@
   v = new gv();
   s.values.push(v);
   v.value =
-    "const script = document.createElement(\u0027script\u0027);\nscript.src = \u0027https://localhost/perguntas-passa-repassa/static/exp/posthog/posthog_cookieless.js\u0027;\ndocument.body.appendChild(script);";
+    "const script = document.createElement(\u0027script\u0027);\nscript.src = \u0027https://skynetsites.github.io/perguntas-torta-na-cara/static/exp/posthog/posthog_cookieless.js\u0027;\ndocument.body.appendChild(script);";
   v.rules = [];
   s = new gs();
   ss.push(s);
@@ -7133,3 +7133,4 @@
   g.Shell.loadSwitches(ss);
 })();
 //Generated 2026-01-05 00:52:16Z
+
